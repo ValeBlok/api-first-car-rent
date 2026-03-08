@@ -13,7 +13,7 @@
 
 ## Swagger
 
-Просмотр swagger возможен по адресу http://127.0.0.1:8000.
+Просмотр swagger возможен по адресу http://127.0.0.1:8000/docs.
 ![image.png](docs/image.png)
 
 ## Старт
