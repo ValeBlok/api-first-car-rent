@@ -27,6 +27,8 @@
 
 ```bash
 git clone https://github.com/ValeBlok/api-first-car-rent.git
+python -m venv venv
+pip install requirements.txt
 cd car_rent_api
 uvicorn main:app --reload
 ```
