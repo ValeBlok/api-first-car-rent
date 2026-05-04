@@ -14,7 +14,6 @@
 ## Swagger
 
 Просмотр swagger возможен по адресу http://127.0.0.1:8000/docs.
-![image.png](docs/image.png)
 
 ## Старт
 
@@ -27,10 +26,10 @@
 
 ```bash
 git clone https://github.com/ValeBlok/api-first-car-rent.git
+cd api-first-car-rent
 python -m venv venv
 pip install requirements.txt
-cd car_rent_api
-uvicorn main:app --reload
+python3 -m uvicorn app.main:app --reload
 ```
 
 ### Запуск в докере
