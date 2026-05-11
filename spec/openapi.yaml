@@ -15,7 +15,22 @@ tags:
     description: Бронирование автомобилей
   - name: Fines
     description: Штрафы пользователей
+  - name: Metrics
+    description: Prometheus-метрики
 paths:
+  /metrics:
+    get:
+      tags:
+        - Metrics
+      operationId: getMetrics
+      summary: Получить Prometheus-метрики
+      responses:
+        '200':
+          description: Prometheus metrics exposition format
+          content:
+            text/plain:
+              schema:
+                type: string
   /registration:
     post:
       tags:
