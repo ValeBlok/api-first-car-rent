@@ -4,8 +4,11 @@ import yaml
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
+from app.logging_config import setup_logging
 from app.metrics import metrics, prometheus_middleware
 from app.routers import bookings, fines, registration
+
+setup_logging()
 
 app = FastAPI(
     title="Car Rent API",

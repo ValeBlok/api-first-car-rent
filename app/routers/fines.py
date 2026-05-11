@@ -1,9 +1,12 @@
+import logging
+
 from fastapi import APIRouter, status
 
 from app import storage
 from app.models import FineCreate, FineCreated, UserFines
 
 router = APIRouter(tags=["Fines"])
+logger = logging.getLogger("car_rent.fines")
 
 
 @router.get(
@@ -15,6 +18,15 @@ async def get_user_fines(user_id: int) -> UserFines:
     user_fines = storage.fines.get(user_id, [])
     total_amount = sum(fine["amount"] for fine in user_fines)
     has_fines = len(user_fines) > 0
+    logger.info(
+        "user_fines_viewed",
+        extra={
+            "user_id": user_id,
+            "has_fines": has_fines,
+            "fines_count": len(user_fines),
+            "total_amount": total_amount,
+        },
+    )
 
     return UserFines(
         user_id=user_id,
@@ -43,5 +55,13 @@ async def create_fine(fine: FineCreate) -> FineCreated:
         status="created",
     )
     storage.fines.setdefault(fine.user_id, []).append(created_fine.model_dump())
+    logger.info(
+        "fine_created",
+        extra={
+            "fine_id": fine_id,
+            "user_id": fine.user_id,
+            "amount": fine.amount,
+        },
+    )
 
     return created_fine

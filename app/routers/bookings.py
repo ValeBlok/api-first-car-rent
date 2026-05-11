@@ -1,9 +1,12 @@
+import logging
+
 from fastapi import APIRouter, HTTPException, status
 
 from app import storage
 from app.models import BookingCancelled, BookingCreate, BookingCreated
 
 router = APIRouter(tags=["Bookings"])
+logger = logging.getLogger("car_rent.bookings")
 
 
 @router.post(
@@ -27,6 +30,15 @@ async def create_booking(booking: BookingCreate) -> BookingCreated:
         status="confirmed",
     )
     storage.bookings[booking_id] = created_booking.model_dump()
+    logger.info(
+        "booking_created",
+        extra={
+            "booking_id": booking_id,
+            "car_id": booking.car_id,
+            "user_id": booking.user_id,
+            "total_price": total_price,
+        },
+    )
 
     return created_booking
 
@@ -38,9 +50,11 @@ async def create_booking(booking: BookingCreate) -> BookingCreated:
 )
 async def cancel_booking(booking_id: int) -> BookingCancelled:
     if booking_id not in storage.bookings:
+        logger.warning("booking_cancel_failed", extra={"booking_id": booking_id})
         raise HTTPException(status_code=404, detail="Бронь не найдена")
 
     storage.bookings.pop(booking_id)
+    logger.info("booking_cancelled", extra={"booking_id": booking_id})
 
     return BookingCancelled(
         booking_id=booking_id,

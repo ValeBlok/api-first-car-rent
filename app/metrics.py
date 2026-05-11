@@ -1,3 +1,4 @@
+import logging
 from time import perf_counter
 
 from fastapi import Request, Response
@@ -6,6 +7,8 @@ from starlette.middleware.base import RequestResponseEndpoint
 
 from app import storage
 
+
+logger = logging.getLogger("car_rent.api")
 
 REQUEST_COUNT = Counter(
     "car_rent_http_requests_total",
@@ -68,6 +71,15 @@ async def prometheus_middleware(
         ).inc()
         REQUEST_LATENCY.labels(method=method, path=route_path).observe(duration)
         REQUESTS_IN_PROGRESS.labels(method=method).dec()
+        logger.info(
+            "http_request_completed",
+            extra={
+                "method": method,
+                "path": route_path,
+                "status_code": status_code,
+                "duration_seconds": round(duration, 6),
+            },
+        )
 
 
 async def metrics() -> Response:
