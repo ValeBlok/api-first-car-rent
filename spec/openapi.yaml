@@ -6,8 +6,8 @@ info:
     API для регистрации пользователей, бронирования автомобилей и работы со штрафами.
     Эта спецификация является первым артефактом проекта: реализация должна следовать ей.
 servers:
-  - url: http://127.0.0.1:8000
-    description: Local development server
+  - url: /
+    description: Current server
 tags:
   - name: Users
     description: Регистрация пользователей

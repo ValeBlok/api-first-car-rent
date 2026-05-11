@@ -28,26 +28,12 @@ Prometheus-метрики доступны по адресу http://127.0.0.1:80
 - `car_rent_bookings_total` — количество активных бронирований
 - `car_rent_fines_total` — количество созданных штрафов
 
-## Старт
+Дашборды графаны по адресу: http://127.0.0.1:3000
 
-Потребуются  следующие технологии:
+## Запуск
 
-- Python 3.12 и выше
-- Docker (опционально)
-
-### Запуск локально
+Понадобится docker.
 
 ```bash
-git clone https://github.com/ValeBlok/api-first-car-rent.git
-cd api-first-car-rent
-python -m venv venv
-pip install requirements.txt
-python3 -m uvicorn app.main:app --reload
-```
-
-### Запуск в докере
-
-```bash
-git clone https://github.com/ValeBlok/api-first-car-rent.git
-docker build -t car-rent-api . && docker run -p 8000:8000 car-rent-api
+docker compose up -d
 ```
