@@ -4,6 +4,8 @@ import sys
 from datetime import datetime, timezone
 from typing import Any
 
+from opentelemetry import trace
+
 
 RESERVED_LOG_RECORD_KEYS = {
     "args",
@@ -39,6 +41,10 @@ class JsonFormatter(logging.Formatter):
             "logger": record.name,
             "message": record.getMessage(),
         }
+        span_context = trace.get_current_span().get_span_context()
+        if span_context.is_valid:
+            payload["trace_id"] = format(span_context.trace_id, "032x")
+            payload["span_id"] = format(span_context.span_id, "016x")
 
         for key, value in record.__dict__.items():
             if key not in RESERVED_LOG_RECORD_KEYS:

@@ -7,6 +7,7 @@ from fastapi.responses import RedirectResponse
 from app.logging_config import setup_logging
 from app.metrics import metrics, prometheus_middleware
 from app.routers import bookings, fines, registration
+from app.tracing import setup_tracing
 
 setup_logging()
 
@@ -22,6 +23,7 @@ app.middleware("http")(prometheus_middleware)
 app.include_router(registration.router)
 app.include_router(bookings.router)
 app.include_router(fines.router)
+setup_tracing(app)
 
 
 @app.get("/", include_in_schema=False)

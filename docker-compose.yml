@@ -2,8 +2,13 @@ services:
   api:
     build: .
     container_name: car-rent-api
+    depends_on:
+      - tempo
     ports:
       - "8000:8000"
+    environment:
+      OTEL_SERVICE_NAME: car-rent-api
+      OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: http://tempo:4317
 
   prometheus:
     image: prom/prometheus:v3.8.0
@@ -24,6 +29,17 @@ services:
     volumes:
       - ./loki/loki.yml:/etc/loki/local-config.yml:ro
 
+  tempo:
+    image: grafana/tempo:2.9.0
+    container_name: car-rent-tempo
+    command: -config.file=/etc/tempo/tempo.yml
+    ports:
+      - "3200:3200"
+      - "4317:4317"
+      - "4318:4318"
+    volumes:
+      - ./tempo/tempo.yml:/etc/tempo/tempo.yml:ro
+
   promtail:
     image: grafana/promtail:latest
     container_name: car-rent-promtail
@@ -40,6 +56,7 @@ services:
     depends_on:
       - prometheus
       - loki
+      - tempo
     ports:
       - "3000:3000"
     environment:
