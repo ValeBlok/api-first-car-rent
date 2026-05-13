@@ -15,11 +15,13 @@
 
 Просмотр swagger возможен по адресу http://127.0.0.1:8000/docs.
 
+![swagger](images/swagger.png)
+
 ## Метрики, логи, трейсы
 
 Prometheus-метрики доступны по адресу http://127.0.0.1:8000/metrics.
 
-Сервис экспортирует:
+Помимо системных метрик сервис экспортирует:
 
 - `car_rent_http_requests_total` — количество HTTP-запросов по методу, пути и статусу ответа
 - `car_rent_http_request_duration_seconds` — длительность HTTP-запросов по методу и пути
@@ -28,13 +30,25 @@ Prometheus-метрики доступны по адресу http://127.0.0.1:80
 - `car_rent_bookings_total` — количество активных бронирований
 - `car_rent_fines_total` — количество созданных штрафов
 
+![metrics](images/metrics.png)
+
 Дашборды Grafana: http://127.0.0.1:3000.
+
+![grafana](images/grafana.png)
 
 Prometheus: http://127.0.0.1:9090.
 
+![prometheus](images/prometheus.png)
+
 Loki: http://127.0.0.1:3100.
 
+В графане:
+![logs](images/logs.png)
+
 Tempo: http://127.0.0.1:3200.
+
+В графане:
+![traces](images/traces.png)
 
 ## Запуск
 
