@@ -1,6 +1,6 @@
 services:
   api:
-    build: .
+    image: ${API_IMAGE:-car-rent-api:latest}
     container_name: car-rent-api
     depends_on:
       - tempo
