@@ -63,20 +63,20 @@ jobs:
         env:
           DEPLOY_PATH: ${{ env.DEPLOY_PATH }}
         with:
-          host: ${{ vars.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
+          host: ${{ secrets.SERVER_IP }}
+          username: root
           key: ${{ secrets.SERVER_SSH_KEY }}
-          port: ${{ vars.SERVER_PORT || 22 }}
+          port: 22
           envs: DEPLOY_PATH
           script: mkdir -p "$DEPLOY_PATH"
 
       - name: Upload compose files
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ vars.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
+          host: ${{ secrets.SERVER_IP }}
+          username: root
           key: ${{ secrets.SERVER_SSH_KEY }}
-          port: ${{ vars.SERVER_PORT || 22 }}
+          port: 22
           source: "docker-compose.yml,prometheus,loki,tempo,promtail,grafana"
           target: ${{ env.DEPLOY_PATH }}
 
@@ -88,8 +88,8 @@ jobs:
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEPLOY_PATH: ${{ env.DEPLOY_PATH }}
         with:
-          host: ${{ vars.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
+          host: ${{ secrets.SERVER_IP }}
+          username: root
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
           envs: API_IMAGE,GHCR_USER,GHCR_TOKEN,DEPLOY_PATH
